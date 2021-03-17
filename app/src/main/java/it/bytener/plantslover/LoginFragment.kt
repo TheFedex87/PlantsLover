@@ -7,6 +7,9 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import it.bytener.plantslover.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
@@ -21,6 +24,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         binding.textViewLogin.setOnClickListener {
             loginScreenAnimation()
+        }
+        binding.viewRegister.setOnClickListener {
+            val extras = FragmentNavigatorExtras(binding.viewRegister to "register_view",
+                binding.textViewRegister to "register_text_view")
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment, null, null, extras)
         }
     }
 
