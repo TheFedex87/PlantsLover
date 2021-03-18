@@ -47,10 +47,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/constraintlayout_user_data"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:transitionName="user_data"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_view_title_register">
@@ -126,9 +127,9 @@
         app:icon="@drawable/ic_arrow_right"
         app:iconSize="40dp"
         app:iconTint="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintlayout_user_data"
         app:layout_constraintEnd_toStartOf="@+id/right_guideline"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toTopOf="@+id/constraintlayout_user_data" />
 
     <TextView
         android:id="@+id/text_view_forgot_password"
@@ -139,9 +140,9 @@
         android:textColor="#C0C0C0"
         android:textSize="15sp"
         app:layout_constraintEnd_toStartOf="@+id/materialButton"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintlayout_user_data" />
 
-    <View
+    <!--<View
         android:id="@+id/view_register"
         android:layout_width="90dp"
         android:layout_height="45dp"
@@ -163,7 +164,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/view_register"
         app:layout_constraintEnd_toEndOf="@+id/view_register"
         app:layout_constraintStart_toStartOf="@+id/view_register"
-        app:layout_constraintTop_toTopOf="@id/view_register" />
+        app:layout_constraintTop_toTopOf="@id/view_register" />-->
 
 
     <androidx.constraintlayout.widget.Guideline
