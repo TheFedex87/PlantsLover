@@ -137,6 +137,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Forgot password?"
+        android:transitionName="forgot_password"
         android:textColor="#C0C0C0"
         android:textSize="15sp"
         app:layout_constraintEnd_toStartOf="@+id/materialButton"
@@ -148,7 +149,7 @@
         android:layout_height="45dp"
         android:background="@drawable/right_corner"
         app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="parent" />
 
     <TextView
         android:id="@+id/text_view_register"
