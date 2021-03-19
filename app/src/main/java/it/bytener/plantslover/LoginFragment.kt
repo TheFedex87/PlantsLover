@@ -54,6 +54,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 //findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
             }
         }
+
+        binding.leafTop.setOnClickListener {
+            bounceAnim(binding.leafTop)
+        }
+        binding.leafBottom.setOnClickListener {
+            bounceAnim(binding.leafBottom)
+        }
     }
 
     private fun loginScreenAnimation() {
@@ -201,5 +208,23 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             0f
         ).setDuration(400)
         translateTextAnimator.start()
+    }
+
+    private fun bounceAnim(view: View) {
+        val scaleAnimatorIn1 = ObjectAnimator.ofFloat(view, View.SCALE_Y, 1f, 1.5f).setDuration(100)
+        scaleAnimatorIn1.interpolator = FastOutSlowInInterpolator()
+
+        val scaleAnimatorOut1 = ObjectAnimator.ofFloat(view, View.SCALE_Y, 1.5f, 0.8f).setDuration(150)
+        scaleAnimatorOut1.interpolator = FastOutSlowInInterpolator()
+
+        val scaleAnimatorIn2 = ObjectAnimator.ofFloat(view, View.SCALE_Y, 0.8f, 1.1f).setDuration(200)
+        scaleAnimatorIn2.interpolator = FastOutSlowInInterpolator()
+
+        val scaleAnimatorOut2 = ObjectAnimator.ofFloat(view, View.SCALE_Y, 1.1f, 1.0f).setDuration(250)
+        scaleAnimatorOut2.interpolator = FastOutSlowInInterpolator()
+
+        val animatorSet = AnimatorSet()
+        animatorSet.playSequentially(scaleAnimatorIn1, scaleAnimatorOut1, scaleAnimatorIn2, scaleAnimatorOut2)
+        animatorSet.start()
     }
 }

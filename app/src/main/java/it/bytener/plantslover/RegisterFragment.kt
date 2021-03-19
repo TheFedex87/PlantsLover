@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -14,6 +15,7 @@ import it.bytener.plantslover.databinding.FragmentRegisterBinding
 
 class RegisterFragment : Fragment(R.layout.fragment_register) {
     private lateinit var binding : FragmentRegisterBinding
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,25 +31,45 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         binding = FragmentRegisterBinding.bind(view)
 
         binding.viewLogin.setOnClickListener {
-            animOut(binding.leafTop, binding.leafTop.layoutParams.height * 0.9f, 0f) {}
-            animOut(binding.leafBottom,
-                binding.root.layoutParams.height - binding.leafBottom.layoutParams.height * 0.9f,
-                binding.root.layoutParams.height * 1.0f) {
-                val extras = FragmentNavigatorExtras(
-                    binding.constraintlayoutUserData to "user_data",
-                    binding.textViewForgotPassword to "forgot_password"
-                )
-                findNavController().navigate(R.id.action_registerFragment_to_loginFragment, null, null, extras)
-                //findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
-            }
+            navigateToLoginScreen()
         }
 
         registerScreenAnimation()
         //binding.leafTop.translationY = binding.leafTop.layoutParams.height * 0.9f
         //binding.leafBottom.translationY = -binding.leafBottom.layoutParams.height * 0.9f
+        binding.leafTop.setOnClickListener {
+            bounceAnim(binding.leafTop)
+        }
+        binding.leafBottom.setOnClickListener {
+            bounceAnim(binding.leafBottom)
+        }
+
+        onBackPressedCallback = object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                navigateToLoginScreen()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(onBackPressedCallback)
     }
 
+    override fun onDestroyView() {
+        onBackPressedCallback.remove()
+        super.onDestroyView()
+    }
 
+    private fun navigateToLoginScreen() {
+        animOut(binding.leafTop, binding.leafTop.layoutParams.height * 0.9f, 0f) {}
+        animOut(binding.leafBottom,
+            binding.root.layoutParams.height - binding.leafBottom.layoutParams.height * 0.9f,
+            binding.root.layoutParams.height * 1.0f) {
+            val extras = FragmentNavigatorExtras(
+                binding.constraintlayoutUserData to "user_data",
+                binding.textViewForgotPassword to "forgot_password"
+            )
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment, null, null, extras)
+            //findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+    }
 
     private fun registerScreenAnimation() {
         val leafTop: View = binding.leafTop
@@ -151,5 +173,23 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         translateViewAnimator.start()
         val translateTextAnimator = ObjectAnimator.ofFloat(binding.textViewLogin, View.TRANSLATION_X, -binding.viewLogin.layoutParams.width * 1.0f, 0f).setDuration(400)
         translateTextAnimator.start()
+    }
+
+    private fun bounceAnim(view: View) {
+        val scaleAnimatorIn1 = ObjectAnimator.ofFloat(view, View.SCALE_Y, 1f, 1.5f).setDuration(100)
+        scaleAnimatorIn1.interpolator = FastOutSlowInInterpolator()
+
+        val scaleAnimatorOut1 = ObjectAnimator.ofFloat(view, View.SCALE_Y, 1.5f, 0.8f).setDuration(150)
+        scaleAnimatorOut1.interpolator = FastOutSlowInInterpolator()
+
+        val scaleAnimatorIn2 = ObjectAnimator.ofFloat(view, View.SCALE_Y, 0.8f, 1.1f).setDuration(200)
+        scaleAnimatorIn2.interpolator = FastOutSlowInInterpolator()
+
+        val scaleAnimatorOut2 = ObjectAnimator.ofFloat(view, View.SCALE_Y, 1.1f, 1.0f).setDuration(250)
+        scaleAnimatorOut2.interpolator = FastOutSlowInInterpolator()
+
+        val animatorSet = AnimatorSet()
+        animatorSet.playSequentially(scaleAnimatorIn1, scaleAnimatorOut1, scaleAnimatorIn2, scaleAnimatorOut2)
+        animatorSet.start()
     }
 }
